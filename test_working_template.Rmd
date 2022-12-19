@@ -29,7 +29,7 @@ Now we will look at some visualization
 
 ## Q3
 
-Please include text explanations here (optional) and R code below (optional)
+New file
 
 ```{r}
 
