@@ -1,7 +1,9 @@
 # Test working. Your name
 
 ## Q1
+library(tidyverse)
 
+cites <- read_csv("Trade_database_download_v2022.1.zip")
 # Please include text explanations in a comment (optional) 
 # and R code below (optional)
 
