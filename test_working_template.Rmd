@@ -1,0 +1,92 @@
+---
+title: "Test working"
+author: "Muhammad Ilyas"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1
+
+We will be working with the data set provided by CITEs for Wildlife Trade.
+
+```{r}
+
+```
+
+## Q2
+
+Now we will look at some visualization
+
+```{r}
+
+```
+
+## Q3
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q4
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q5
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q6
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q7
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q8
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q9
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
+
+## Q10
+
+Please include text explanations here (optional) and R code below (optional)
+
+```{r}
+
+```
