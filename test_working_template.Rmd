@@ -1,5 +1,5 @@
 ---
-title: "Test working"
+title: "Project Report"
 author: "Muhammad Ilyas"
 date: "`r Sys.Date()`"
 output:
@@ -10,12 +10,41 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r}
+#List the required packages
+list.of.packages <- c("ggplot2", "tidyverse", "dplyr", "maptools", "rworldmap", "plotly", "tidyverse", "DT", "png", "countrycode", "ggimage", "corrplot", "treemapify",
+"treemap")
+#useful function for package loading and installation
+#Checks if the package is already installed then skips the installation if not it will be installed
+ipak <- function(pkg){
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        install.packages(new.pkg, dependencies = TRUE)
+    sapply(pkg, require, character.only = TRUE)
+}
+#load the required packages using the newly created ipak function
+ipak(list.of.packages)
+
+#new.packages <- list.of.packages[!(list.of.packages %in% #installed.packages()[,"Package"])]
+#if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
+
+##Install the ggflags from github and load it
+#remotes::install_github("ellisp/ggflags", force = T)
+library(ggflags)
+```
 
 ## Q1
 
-We will be working with the data set provided by CITEs for Wildlife Trade.
+
 
 ```{r}
+filenames <- list.files(path = "G:/MSc_Data_Science/MTMH601/MTMH601_Report/MTMH601_Report/trade_database_download", pattern = "*.csv")
+
+# Read in the files
+setwd("G:/MSc_Data_Science/MTMH601/MTMH601_Report/MTMH601_Report/trade_database_download")
+data <- lapply(filenames, read_csv)
+# Combine the data frames
+wild <- do.call("rbind", data)
 
 ```
 
@@ -24,6 +53,242 @@ We will be working with the data set provided by CITEs for Wildlife Trade.
 Now we will look at some visualization
 
 ```{r}
+wild$ppose <- ifelse(wild$Purpose=="B", "Breeding",
+
+              ifelse( wild$Purpose=="E", "Educational",
+
+                 ifelse ( wild$Purpose=="G", "Garden",
+
+                 ifelse( wild$Purpose=="H", "Hunting",
+
+                 ifelse ( wild$Purpose=="L", "Law",
+
+                ifelse ( wild$Purpose=="M", "Medical",
+
+                 ifelse( wild$Purpose=="R", "reintroduction to wild",
+
+                 ifelse ( wild$Purpose=="P", "Personal",
+
+                 ifelse ( wild$Purpose=="Q", "Circus",
+
+                 ifelse( wild$Purpose=="S", "Scientific",
+
+                 ifelse ( wild$Purpose=="T", "Commercial",
+
+                 ifelse ( wild$Purpose=="Z", "Zoo",
+
+                            "Unknown"))))))))))))
+
+
+
+
+wild$Excountry <- ifelse(wild$Exporter %in% c("CN", "HK"), "China",
+
+                 ifelse( wild$Exporter=="US", "USA",
+
+                 ifelse ( wild$Exporter=="AE", "Unite Arab Emirates",
+
+                 ifelse( wild$Exporter=="BE", "Belgium",
+
+                 ifelse ( wild$Exporter=="CZ", "Czech Republic",
+
+                ifelse ( wild$Exporter=="NL", "Netherlands",
+
+                 ifelse( wild$Exporter=="ID", "Indonesia",
+
+                 ifelse ( wild$Exporter=="IT", "Italy",
+
+                 ifelse ( wild$Exporter=="SG", "Singerpore",
+
+                 ifelse( wild$Exporter=="MY", "Malaysia",
+
+                 ifelse ( wild$Exporter=="JP", "Japan",
+
+                 ifelse ( wild$Exporter=="MG", "Madagascar",
+
+                 ifelse ( wild$Exporter=="FR", "France",
+
+                 ifelse ( wild$Exporter=="DE", "Germany",
+
+                          ifelse ( wild$Exporter=="GB", "Britain",
+
+                 ifelse ( wild$Exporter=="PE", "Peru",
+
+                ifelse ( wild$Exporter=="DE", "Germany",
+
+                          ifelse ( wild$Exporter=="ES", "Spain",
+
+                 ifelse ( wild$Exporter=="ZW", "Zimbabwe",
+
+                  ifelse ( wild$Exporter=="PH", "Philippines",
+
+                 ifelse ( wild$Exporter=="MC", "Monaco",
+
+                           ifelse ( wild$Exporter=="IL", "Israel",
+
+                  ifelse ( wild$Exporter=="AR", "Argentina",
+
+                 ifelse ( wild$Exporter=="GT", "Guatemala",
+
+                           ifelse ( wild$Exporter=="KW", "Kuwait",
+
+                 ifelse ( wild$Exporter=="DK", "Denmark",
+
+                            ifelse ( wild$Exporter=="UY", "Uruguay",
+
+                 ifelse ( wild$Exporter=="GE", "Geogria",
+
+                           ifelse ( wild$Exporter=="PL", "Poland",
+
+                 ifelse ( wild$Exporter=="TN", "Tunisia",
+
+                                 ifelse ( wild$Exporter=="KE", "Kenya",
+
+                 ifelse ( wild$Exporter=="NO", "Norway",
+
+                           ifelse ( wild$Exporter=="UG", "Uganda",
+
+                 ifelse ( wild$Exporter=="MA", "Morocco",
+
+                                   ifelse ( wild$Exporter=="BS", "Bahamas",
+
+                 ifelse ( wild$Exporter=="NP", "Nepal",
+
+                           ifelse ( wild$Exporter=="IN", "India",
+
+                 ifelse ( wild$Exporter=="NI", "Nicaragua",
+
+                                  ifelse ( wild$Exporter=="PY", "Paraguay",
+
+                 ifelse ( wild$Exporter=="AM", "Armenia",
+
+                                   ifelse ( wild$Exporter=="TH", "Thailand",
+
+                 ifelse ( wild$Exporter=="CA", "Canada",
+
+                                  ifelse ( wild$Exporter=="NG", "Nigeria",
+
+                 ifelse ( wild$Exporter=="MX", "Mexico",
+
+                          
+
+                                       ifelse ( wild$Exporter=="CM", "Cameroon",
+
+                 ifelse ( wild$Exporter=="FJ", "Fiji",
+
+                                  ifelse ( wild$Exporter=="ZA", "South Africa",
+
+                 ifelse ( wild$Exporter=="JM", "Jamaica",
+
+                           ifelse ( wild$Exporter=="AD", "Andorra",
+
+                            wild$Exporter)))))))))))))))))))))))))))))))))))))))))))))))))
+
+
+
+
+
+wild$Imcountry <- ifelse(wild$Importer %in% c("CN", "HK"), "China",
+
+                 ifelse( wild$Importer=="US", "USA",
+
+                 ifelse ( wild$Importer=="AE", "Unite Arab Emirates",
+
+                 ifelse( wild$Importer=="BE", "Belgium",
+
+                 ifelse ( wild$Importer=="CZ", "Czech Republic",
+
+                ifelse ( wild$Importer=="NL", "Netherlands",
+
+                 ifelse( wild$Importer=="ID", "India",
+
+                 ifelse ( wild$Importer=="IT", "Italy",
+
+                 ifelse ( wild$Importer=="SG", "Singerpore",
+
+                 ifelse( wild$Importer=="MY", "Malaysia",
+
+                 ifelse ( wild$Importer=="JP", "Japan",
+
+                 ifelse ( wild$Importer=="MG", "Madagascar",
+
+                 ifelse ( wild$Importer=="FR", "France",
+
+                 ifelse ( wild$Importer=="DE", "Germany",
+
+                          ifelse ( wild$Importer=="GB", "Britain",
+
+                 ifelse ( wild$Importer=="PE", "Peru",
+
+                ifelse ( wild$Importer=="DE", "Germany",
+
+                          ifelse ( wild$Importer=="ES", "Spain",
+
+                 ifelse ( wild$Importer=="ZW", "Zimbabwe",
+
+                  ifelse ( wild$Importer=="PH", "Philippines",
+
+                 ifelse ( wild$Importer=="MC", "Monaco",
+
+                                        ifelse ( wild$Exporter=="IL", "Israel",
+
+                  ifelse ( wild$Importer=="AR", "Argentina",
+
+                 ifelse ( wild$Importer=="GT", "Guatemala",
+
+                           ifelse ( wild$Importer=="KW", "Kuwait",
+
+                 ifelse ( wild$Importer=="DK", "Denmark",
+
+                                           ifelse ( wild$Importer=="UY", "Uruguay",
+
+                 ifelse ( wild$Importer=="GE", "Geogria",
+
+                           ifelse ( wild$Importer=="PL", "Poland",
+
+                 ifelse ( wild$Importer=="TN", "Tunisia",
+
+                                 ifelse ( wild$Importer=="KE", "Kenya",
+
+                 ifelse ( wild$Importer=="NO", "Norway",
+
+                           ifelse ( wild$Importer=="UG", "Uganda",
+
+                 ifelse ( wild$Importer=="MA", "Morocco",
+
+                                   ifelse ( wild$Importer=="BS", "Bahamas",
+
+                 ifelse ( wild$Importer=="NP", "Nepal",
+
+                           ifelse ( wild$Importer=="IN", "India",
+
+                 ifelse ( wild$Importer=="NI", "Nicaragua",
+
+                                  ifelse ( wild$Importer=="PY", "Paraguay",
+
+                 ifelse ( wild$Importer=="AM", "Armenia",
+
+                                   ifelse ( wild$Importer=="TH", "Thailand",
+
+                 ifelse ( wild$Importer=="CA", "Canada",
+
+                                  ifelse ( wild$Importer=="NG", "Nigeria",
+
+                 ifelse ( wild$Importer=="MX", "Mexico",
+
+                          
+
+                                       ifelse ( wild$Importer=="CM", "Cameroon",
+
+                 ifelse ( wild$Importer=="FJ", "Fiji",
+
+                                  ifelse ( wild$Importer=="ZA", "South Africa",
+
+                 ifelse ( wild$Importer=="JM", "Jamaica",
+
+                           ifelse ( wild$Importer=="AD", "Andorra",
+
+                            wild$Importer)))))))))))))))))))))))))))))))))))))))))))))))))
 
 ```
 
